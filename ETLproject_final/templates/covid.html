@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/stylemain.css')}}">
+    <title>CovidMain</title>
+</head>
+
+<body>
+
+    <!-- logo -->
+    <div class="waviy">
+        <span style="--i:1">P</span>
+        <span style="--i:2">L</span>
+        <span style="--i:3">A</span>
+        <span style="--i:4">Y</span>
+        <span style="--i:5">D</span>
+        <span style="--i:6">A</span>
+        <span style="--i:7">T</span>
+        <span style="--i:8">A</span>
+       </div>
+
+    <!-- header -->
+    <div class="header">
+        <div id="img"></div><p>상위10개국 코로나 현황</p></div>
+    </div>
+
+    <!-- topnav -->
+    <div class="topnav">
+        <a onclick="chartopenBarGeo()"><i class="fa fa-search"></i> 상위10개국 코로나 확진자 수 현황</a>
+        <a onclick="chartopenBar()"><i class="fa fa-search"></i> 상위10개국 코로나 확진자대비 사망률</a>
+    </div><br>
+     
+    <!-- 국가 현황 조회 option search -->
+    <form action="/select" method="post">
+        <p id="title">코로나 현황 국가 조회</p>
+        <select id="country" name="country" 
+        style="width:300px;height:30px; border-radius: 7px;
+        border: none; background-color: #dfadad; font-family: Arial, Helvetica, sans-serif;color: white;
+        font-weight: 10000; text-align: center;">
+            <option disabled selected>country</option>
+            <option value="US">US</option>
+            <option value="India">India</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Russia">Russia</option>
+            <option value="France">France</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="Germany">Germany</option>
+        </select>
+        <button type="submit" id="insertBtn"><i class="fa fa-search"></i></button>
+    </form>
+    <br><br><hr><br>    
+
+    <!-- Geo Chart -->
+    <div id="geo" style="position: relative; left: 42%;"><h3>상위10개국 확진자수 현황</h3></div>
+    <div id="regions_div" style="position: relative; width: 900px; height: 500px;  left: 20%; display: block;"></div>        
+
+    <!-- Bar Chart -->
+    <div id="bar" style="position: relative; left: 39%; display: none;"><h3>상위10개국 코로나 확진자대비 사망률</h3></div>
+    <div id="chart_div" style="position: relative; width: 900px; height: 500px; left: 20%; display: none;"></div>
+    
+    <br><br><br><br><br>
+
+    <!-- Java Script _ Ajax, drawChart, hidden function -->
+    <script>
+        google.charts.load('current', {packages: ['corechart', 'geochart', 'bar']});
+        google.charts.setOnLoadCallback(drawGeo);
+
+        // draw GeoChart
+        function drawGeo() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    data = this.responseText;
+                    data = JSON.parse(data);
+    
+                    var dataG = google.visualization.arrayToDataTable([
+                        ['Country', 'confirmed'],
+                        ['United States', data[0].confirmed],
+                        ['India', data[1].confirmed],
+                        ['Brazil', data[2].confirmed],
+                        ['Russia', data[3].confirmed],
+                        ['France', data[4].confirmed],
+                        ['United Kingdom', data[5].confirmed],
+                        ['Turkey', data[6].confirmed],
+                        ['Italy', data[7].confirmed],
+                        ['Spain', data[8].confirmed],
+                        ['Germany', data[9].confirmed],
+                    ]);
+
+                    var options = {  
+                      colorAxis: {colors: ['#A52A2A', '#F08080', '#FFB6C1']}
+                    };             
+                    var chartG = new google.visualization.GeoChart(document.getElementById('regions_div'));
+                    chartG.draw(dataG, options);                
+                };  
+            };
+            xhttp.open("POST", "show");  
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send();
+        };
+
+        // draw BarChart
+        function drawBar(){
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    data = this.responseText;
+                    console.log(data)
+                    data = JSON.parse(data);
+                    var data = google.visualization.arrayToDataTable([
+                        ['나라', '확진자별 사망률', { role: 'style' }],
+                        ['US', ((data[0].deaths/data[0].confirmed)*100), 'color: #76A7FA'],
+                        ['India', ((data[1].deaths/data[1].confirmed)*100), "#5B9BD5"],
+                        ['Brazil', ((data[2].deaths/data[2].confirmed)*100), 'color: gray'],
+                        ['Russia', ((data[3].deaths/data[3].confirmed)*100), 'color: gray'],
+                        ['France', ((data[4].deaths/data[4].confirmed)*100), 'color: gray'],
+                        ['United Kingdom', ((data[5].deaths/data[5].confirmed)*100), 'color: gray'],
+                        ['Turkey', ((data[6].deaths/data[6].confirmed)*100), 'color: gray'],
+                        ['Italy', ((data[7].deaths/data[7].confirmed)*100), 'color: gray'],
+                        ['Spain', ((data[8].deaths/data[8].confirmed)*100), 'color: gray'],
+                        ['Germany', ((data[9].deaths/data[9].confirmed)*100), 'color: gray']
+                    ]);
+                    var options = {
+                        title: '',
+                        width: 900,
+                        colors: ['#CD5C5C'],
+                        legend: { position: 'none' },
+                        chart: { title: '',
+                        subtitle: ' ' },
+                        bars: 'vertical',
+                        axes: {
+                            x: {
+                                0: { side: 'top', label: '사망률'} 
+                            }
+                          },
+                        bar: {groupWidth: "90%" }
+                    };
+                    var chartB = new google.charts.Bar(document.getElementById('chart_div'));
+                    chartB.draw(data, google.charts.Bar.convertOptions(options));
+                };
+            };
+            xhttp.open("POST", "show");
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send();
+        };
+
+        // hidden 적용 함수 - Bar
+        function chartopenBar() {    
+            if(document.getElementById("chart_div").innerHTML=="") {
+                document.getElementById("chart_div").style.display = "block";
+                document.getElementById("regions_div").style.display = "none";
+                document.getElementById("bar").style.display = "block";
+                document.getElementById("geo").style.display = "none";
+                google.charts.setOnLoadCallback(drawBar);
+            }
+            else if(document.getElementById("chart_div").style.display == "none") {
+                document.getElementById("chart_div").style.display = "block";
+                document.getElementById("regions_div").style.display = "none";
+                document.getElementById("bar").style.display = "block";
+                document.getElementById("geo").style.display = "none";        
+            }
+        }
+        // hidden 적용 함수 - Geo
+        function chartopenBarGeo() {    
+            if(document.getElementById("regions_div").innerHTML==""){
+                document.getElementById("chart_div").style.display = "none";
+                document.getElementById("regions_div").style.display = "block";
+                document.getElementById("bar").style.display = "none";
+                document.getElementById("geo").style.display = "block";
+                google.charts.setOnLoadCallback(drawBar);
+            }
+            else if(document.getElementById("regions_div").style.display == "none") {
+                document.getElementById("chart_div").style.display = "none";
+                document.getElementById("regions_div").style.display = "block";
+                document.getElementById("bar").style.display = "none";
+                document.getElementById("geo").style.display = "block";     
+            }
+        }
+    </script>
+    
+</body>
+</html>

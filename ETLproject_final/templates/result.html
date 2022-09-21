@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styletable.css')}}">
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <title>SearchReselt</title>
+</head>
+
+<body>
+
+    <!-- header -->
+    <div class="header">
+        <h1>상위10개국 코로나 현황</h1>
+    </div>
+
+    <!-- topnav -->
+    <div class="topnav">
+        <a onClick="location.href='/'"><i class="fa fa-search"></i> 상위10개국 코로나 현황 차트</a>
+    </div>
+
+    <br><br><br>
+
+    <div class="result" style="position: relative; left: 400px;">
+        <!-- Table Chart -->
+        <table id="table_div" >  
+            <tr>
+                <th colspan="5">코로나 현황</th>
+            </tr>
+            <tr>
+                <td>확진자수</td>
+                <td><div id="icon">{{data.confirmed}}</div></td>
+            </tr>
+            <tr>
+                <td>사망자수</td>
+                <td><div id="icon">{{data.deaths}}</div></td>
+            </tr>
+            <tr>
+                <td>완치자수</td>
+                <td><div id="icon">{{data.recovered}}</div></td>
+            </tr>   
+        </table>
+        
+        <!-- Pie Chart -->
+        <div id='piechart' style="position: relative; left: 500px; top: -250px; width: 400px; height: 400px;"></div>
+    </div>
+
+    <!-- Java Script _ Ajax, drawChart -->
+    <script>
+        google.charts.load('current', {'packages':['corechart', 'table']});
+        google.charts.setOnLoadCallback(drawPie);
+
+        // darw PieChart 
+        function drawPie(){
+        
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['확진자', {{data.confirmed}}],
+                ['사망자', {{data.deaths}}],
+                ['완치', {{data.recovered}}]
+            ]);
+
+            var options = {
+                backgroundColor: {
+                fill: 'transparent'},
+                slices: {
+                    0: { color: '#A52A2A' },
+                    1: { color: '#F08080' },
+                    2: { color: '#FFB6C1' }}         
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        };
+
+    </script>
+    
+</body> 
+</html>

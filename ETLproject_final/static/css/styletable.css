@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+body {
+	width: 100%;
+	text-align: center;
+}
+
+.header {
+	padding: 20px;
+	text-align: center;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #9f4646;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight:  bolder;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.result{
+	text-align: center;
+	font-weight:  bolder;
+}
+
+a {
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration-line: none;
+	color: black;
+}
+
+#table_div {
+	font-family: Arial, Helvetica, sans-serif;
+	border: none;
+	width: 35%;
+	text-align: center;
+}
+
+#table_div td, #table_div th {
+	border-bottom: 1px solid #ddd;
+	border: none;
+	padding: 8px;
+	text-align: center;
+}
+
+#table_div tr:nth-child(even) {
+	background-color: #fffefe;
+	text-align: center;
+
+}
+
+#table_div tr, #table_div td {
+	border-bottom: 1px solid #ddd;
+	border: none;
+	padding: 8px;
+	text-align: center;
+}
+
+#table_div tr:hover {
+	background-color: #ddd;
+	text-align: center;
+	border: none;
+}
+
+#table_div th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: center;
+	background-color: #f06c6c;
+	border-radius: 7px;
+	border: none;
+	color: white;
+}
+
+#icon {
+	background-color: #f59393;
+	width: 70%;
+	color: white;
+	font-weight:1000;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 30px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.waviy {
+	position: relative;
+	-webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+	font-size: 30px;
+	width: 300px;
+	height: 18px;
+	padding: 20px 20px;
+	text-align: center;
+}
+	
+.waviy span {
+	font-family: 'Alfa Slab One', cursive;
+	position: relative;
+	display: inline-block;
+	color: rgb(0, 0, 0);
+	text-transform: uppercase;
+	animation: waviy 1s infinite;
+	animation-delay: calc(.1s * var(--i));
+}
+
+@keyframes waviy {
+0%,40%,100% {
+	transform: translateY(0)
+}
+20% {
+	transform: translateY(-20px)
+}}
+
+
