@@ -8,7 +8,7 @@
 - Google Chart를 이용
 
 <코로나 데이터 출처><br>
-OWNER = 'CSSEGISandData'
-REPO = 'COVID-19'
-PATH = 'csse_covid_19_data/csse_covid_19_daily_reports'
+OWNER = 'CSSEGISandData'<br>
+REPO = 'COVID-19'<br>
+PATH = 'csse_covid_19_data/csse_covid_19_daily_reports'<br>
 URL = f'https://api.github.com/repos/{OWNER}/{REPO}/contents/{PATH}'
