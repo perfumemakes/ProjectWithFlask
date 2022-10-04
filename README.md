@@ -7,7 +7,7 @@
 - CSS 작업은 최소한으로 작업
 - Google Chart를 이용
 
-<코로나 데이터 출처>
+<코로나 데이터 출처><br>
 OWNER = 'CSSEGISandData'
 REPO = 'COVID-19'
 PATH = 'csse_covid_19_data/csse_covid_19_daily_reports'
